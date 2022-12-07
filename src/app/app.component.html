@@ -1,1 +1,54 @@
-<h1>{{ title }}</h1>
+<div class="container">
+
+  <div class="card">
+    <h2>Добавить пост</h2>
+    <div class="form-control">
+      <input type="text" placeholder="Title" [(ngModel)]="postTitle">
+      <input type="text" placeholder="Body" [(ngModel)]="postBody">
+    </div>
+    <button class="btn btn-primary" (click)="addPost()">Добавить</button>
+    <button class="btn btn-success " (click)="fetchPosts()">Загрузить</button>
+  </div>
+
+  <hr>
+
+  <h1 style="text-align: center">Посты</h1>
+
+  <p *ngIf="error; else postsBlock" class="error">{{error}}</p>
+
+  <ng-template #postsBlock>
+    <div *ngIf="!loading; else loadingBlock">
+      <div *ngIf="posts.length; else noPosts">
+        <div class="card" *ngFor="let post of posts">
+          <div>
+            <h2>title:</h2>
+            <span>{{post.title}}</span>
+          </div>
+
+          <div>
+            <h3>body:</h3>
+            <span>{{post.body}}</span>
+          </div>
+
+            <span>
+              <button class="btn btn-info" >Изменить</button>
+              <button class="btn btn-danger" (click)="removePost(post.id)">Удалить</button>
+<!--              <button class="btn" [disabled]="todo.completed" (click)="completeTodo(todo.id)">Завершить</button>-->
+            </span>
+
+        </div>
+      </div>
+      <ng-template #noPosts>
+        <p>Нет элементов</p>
+      </ng-template>
+    </div>
+
+    <ng-template #loadingBlock>
+      <p>Загрузка...</p>
+    </ng-template>
+  </ng-template>
+
+</div>
+
+
+
