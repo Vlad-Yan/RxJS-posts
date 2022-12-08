@@ -1,13 +1,15 @@
 <div class="container">
 
-  <div class="card">
+  <div class="card" style="padding: 1rem; margin: 1rem 0">
     <h2>Добавить пост</h2>
-    <div class="form-control">
-      <input type="text" placeholder="Title" [(ngModel)]="postTitle">
-      <input type="text" placeholder="Body" [(ngModel)]="postBody">
+    <div>
+      <input class="form-control" type="text" placeholder="Title" [(ngModel)]="postTitle">
+      <input class="form-control" type="text" placeholder="Body" [(ngModel)]="postBody">
     </div>
-    <button class="btn btn-primary" (click)="addPost()">Добавить</button>
-    <button class="btn btn-success " (click)="fetchPosts()">Загрузить</button>
+    <div>
+      <button style="margin-right: 0.6rem" class="btn btn-dark" (click)="addPost()">Добавить</button>
+      <button class="btn btn-success " (click)="fetchPosts()">Загрузить</button>
+    </div>
   </div>
 
   <hr>
@@ -19,7 +21,7 @@
   <ng-template #postsBlock>
     <div *ngIf="!loading; else loadingBlock">
       <div *ngIf="posts.length; else noPosts">
-        <div class="card" *ngFor="let post of posts">
+        <div style="padding: 1rem; margin-bottom: 1rem" class="card" *ngFor="let post of posts">
           <div>
             <h2>title:</h2>
             <span>{{post.title}}</span>
@@ -31,9 +33,8 @@
           </div>
 
             <span>
-              <button class="btn btn-info" >Изменить</button>
+              <button style="margin-right: 0.6rem" class="btn btn-primary" (click)="openModal(post.id)">Изменить</button>
               <button class="btn btn-danger" (click)="removePost(post.id)">Удалить</button>
-<!--              <button class="btn" [disabled]="todo.completed" (click)="completeTodo(todo.id)">Завершить</button>-->
             </span>
 
         </div>

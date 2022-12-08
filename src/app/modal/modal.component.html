@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <h4 class="modal-title">Изменить пост!</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <input type="text" placeholder="Title" [(ngModel)]="postTitle">
+    <input type="text" placeholder="Body" [(ngModel)]="postBody">
+    <button type="submit" class="btn btn-primary" (click)="updatePost()">Изменить</button>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Закрыть</button>
+</div>

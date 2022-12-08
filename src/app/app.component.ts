@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PostsService} from "./services/posts.service";
 import {PostItem} from "./interfaces/post-item";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalComponent} from "./modal/modal.component";
 
 @Component({
   selector: 'app-root',
@@ -15,14 +17,14 @@ export class AppComponent implements OnInit{
   postBody = ''
   error = ''
 
-  constructor(public postsService: PostsService) {}
+  constructor(public postsService: PostsService, public modalService: NgbModal) {}
 
 
   ngOnInit() {
-    this.fetchPosts()
+    this.fetchPosts();
   }
 
-  // -
+
   addPost() {
     if (!this.postTitle.trim() || !this.postBody.trim()) {
       return
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit{
     })
   }
 
-  // +
+
   fetchPosts() {
     this.loading = true
     this.postsService.fetchPosts()
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit{
       })
   }
 
-  // +
+
   removePost(id: any) {
     this.postsService.removePost(id)
       .subscribe(() => {
@@ -58,16 +60,26 @@ export class AppComponent implements OnInit{
       })
   }
 
-  // -
-  // updateTodo(id: any) {
-  //   this.postsService.updatePosts(id).
-  //   subscribe(post => {
-  //     this.posts.find(p => {
-  //       if (p.id === post.id) {
-  //         p.completed = true
-  //       }
-  //     })
-  //   })
-  // }
 
+  updatePost(id: any, res: PostItem) {
+    this.postsService.updatePost(id, res).
+    subscribe(post => {
+      this.posts.find(p => {
+        if (p.id === post.id) {
+          p.title = res.title;
+          p.body = res.body;
+        }
+      })
+    })
+  }
+
+  openModal(id: any) {
+    this.postsService.fetchOnePosts(id).subscribe((post) => {
+      const modalRef = this.modalService.open(ModalComponent);
+      modalRef.componentInstance.post = post
+      modalRef.result.then((res) => {
+        this.updatePost(id, res)
+      })
+      })
+  }
 }
